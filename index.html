@@ -38,7 +38,28 @@
             </div>
         </div>
     </header>
+     <main class="w-[90%] md:w-[80%] mx-auto mt-12 mb-20">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">Available Jobs</h2>
+            <span id="currentViewCount" class="bg-blue-600 text-white px-4 py-1 rounded-full">0</span>
+        </div>
+
+        <div class="mb-8 flex gap-2">
+            <button onclick="toggleTab('all-tab')" id="all-tab" class="bg-blue-800 text-white px-6 py-2 rounded shadow">All</button>
+            <button onclick="toggleTab('interview-tab')" id="interview-tab" class="bg-gray-200 text-black px-6 py-2 rounded">Interview</button>
+            <button onclick="toggleTab('rejected-tab')" id="rejected-tab" class="bg-gray-200 text-black px-6 py-2 rounded">Rejected</button>
+        </div>
+     </main>
      
+        <div id="job-container" class="grid grid-cols-1 gap-6">
+            </div>
+
+        <div id="empty-state" class="hidden text-center py-20">
+          <span class="text-blue-500 text-7xl"> <i class="fa-solid fa-file-lines"></i></span>
+            <h3 class="text-xl font-semibold text-gray-600">No Jobs Available</h3>
+            <p class="text-gray-400">Come back soon for new job opportunities.</p>
+        </div>
+
     <script src="script/script.js"></script>
 </body>
 </html>
