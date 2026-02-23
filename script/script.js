@@ -19,3 +19,66 @@ const totalCountEl = document.getElementById('totalCount');
 const interviewCountEl = document.getElementById('interviewCount');
 const rejectedCountEl = document.getElementById('rejectedCount');
 const currentViewCountEl = document.getElementById('currentViewCount');
+
+
+function renderJobs() {
+    jobContainer.innerHTML = '';
+    
+    
+    const filteredJobs = jobs.filter(job => {
+        if (currentTab === 'all-tab') return true;
+        if (currentTab === 'interview-tab') return job.status === 'Interview';
+        if (currentTab === 'rejected-tab') return job.status === 'Rejected';
+    });
+
+    
+    updateDashboard(filteredJobs.length);
+
+    if (filteredJobs.length === 0) {
+        jobContainer.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+    } else {
+        jobContainer.classList.remove('hidden');
+        emptyState.classList.add('hidden');
+        
+        filteredJobs.forEach(job => {
+            const card = document.createElement('div');
+            card.className = "bg-white p-6 rounded-xl shadow-sm border border-gray-100 relative mb-4 w-[90%] md:w-[80%] mx-auto";
+            
+            card.innerHTML = `
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="text-xl font-bold text-black">${job.company}</h3>
+                        <p class="text-gray-500 font-medium">${job.position}</p>
+                    </div>
+                    <button onclick="deleteJob(${job.id})" class="hover:text-red-600">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                
+                <div class="flex flex-wrap gap-4 my-3 text-sm text-gray-600">
+                    <span><i class="fa-solid fa-location-dot"></i> ${job.location}</span>
+                    <span>. ${job.type}</span>
+                    <span>. ${job.salary}</span>
+                </div>
+                
+                <p class="text-gray-600 text-sm mb-4 leading-relaxed">${job.description}</p>
+                
+                <div class="flex gap-3">
+                    <button onclick="updateStatus(${job.id}, 'Interview')" 
+                        class="px-4 py-1.5 border rounded-md text-sm font-medium transition-colors ${job.status === 'Interview' ? 'bg-green-100 text-green-700 border-green-500' : 'text-green-600 border-green-200 hover:bg-green-50'}">
+                        INTERVIEW
+                    </button>
+                    <button onclick="updateStatus(${job.id}, 'Rejected')" 
+                        class="px-4 py-1.5 border rounded-md text-sm font-medium transition-colors ${job.status === 'Rejected' ? 'bg-red-100 text-red-700 border-red-500' : 'text-red-600 border-red-200 hover:bg-red-50'}">
+                        REJECTED
+                    </button>
+                </div>
+            `;
+            jobContainer.appendChild(card);
+        });
+    }
+}
+
+
+
