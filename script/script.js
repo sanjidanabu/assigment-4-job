@@ -31,7 +31,7 @@ function showAllJobs() {
         if (currentTab === 'rejected-tab') return job.status === 'Rejected';
     });
 
-    console.log("filter job count:", filteredJobs.length);
+    console.log("job count:", filteredJobs.length);
     
     updateDashboard(filteredJobs.length);
 
