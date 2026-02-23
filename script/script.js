@@ -9,3 +9,13 @@ const initialJobs = [
     { id: 7, company: "StartupXYZ", position: "Full Stack Engineer", location: "Remote", type: "Full-time", salary: "$120,000 - $160,000", description: "Join our fast-growing startup and work on our core platform. Experience with Node.js and React required. Great benefits and equity package included.", status: "all" },
     { id: 8, company: "TechCorp Industries", position: "Senior Frontend Developer", location: "San Francisco, CA", type: "Full-time", salary: "$130,000 - $175,000", description: "We are looking for an experienced Frontend Developer to build scalable web applications using React and TypeScript. You will work with a talented team on cutting-edge projects.", status: "all" }
 ];
+let jobs = [...initialJobs];
+let currentTab = 'all-tab';
+
+
+const jobContainer = document.getElementById('job-container');
+const emptyState = document.getElementById('empty-state');
+const totalCountEl = document.getElementById('totalCount');
+const interviewCountEl = document.getElementById('interviewCount');
+const rejectedCountEl = document.getElementById('rejectedCount');
+const currentViewCountEl = document.getElementById('currentViewCount');
