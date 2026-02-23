@@ -21,7 +21,7 @@ const rejectedCountEl = document.getElementById('rejectedCount');
 const currentViewCountEl = document.getElementById('currentViewCount');
 
 
-function renderJobs() {
+function showAllJobs() {
     jobContainer.innerHTML = '';
     
     
@@ -31,20 +31,22 @@ function renderJobs() {
         if (currentTab === 'rejected-tab') return job.status === 'Rejected';
     });
 
+    console.log("filter job count:", filteredJobs.length);
     
     updateDashboard(filteredJobs.length);
 
     if (filteredJobs.length === 0) {
+        console.log("No jobs found");
         jobContainer.classList.add('hidden');
         emptyState.classList.remove('hidden');
     } else {
         jobContainer.classList.remove('hidden');
         emptyState.classList.add('hidden');
         
-        filteredJobs.forEach(job => {
+        for( let job of filteredJobs){
             const card = document.createElement('div');
             card.className = "bg-white p-6 rounded-xl shadow-sm border border-gray-100 relative mb-4 w-[90%] md:w-[80%] mx-auto";
-            
+        
             card.innerHTML = `
                 <div class="flex justify-between items-start">
                     <div>
@@ -76,9 +78,58 @@ function renderJobs() {
                 </div>
             `;
             jobContainer.appendChild(card);
-        });
+        };
     }
 }
 
+window.updateStatus = function(id, newStatus) {
+    console.log("updated job:", id, "new status:", newStatus);
+    jobs = jobs.map(job => {
+        if (job.id === id) {
+            return { ...job, status: newStatus };
+        }
+        return job;
+    });
+    console.log("status update succesfully");
+    showAllJobs();
+};
 
 
+window.deleteJob = function(id) {
+    console.log("delete job with id:", id);
+    jobs = jobs.filter(job => job.id !== id);
+    console.log("jobs count:", jobs.length);
+    showAllJobs();
+};
+
+window.toggleTab = function(tabId) {
+    console.log("click to tab:", tabId);
+    currentTab = tabId;
+    
+    
+    const tabs = ['all-tab', 'interview-tab', 'rejected-tab'];
+    tabs.forEach(tab => {
+        const el = document.getElementById(tab);
+        if (tab === tabId) {
+            el.className = "bg-blue-800 text-white px-6 py-2 rounded shadow transition-all";
+        } else {
+            el.className = "bg-gray-200 text-black px-6 py-2 rounded hover:bg-gray-300 transition-all";
+        }
+    });
+    
+    showAllJobs();
+};
+
+
+function updateDashboard(currentViewCount) {
+    const interviewCount = jobs.filter(j => j.status === 'Interview').length;
+    const rejectedCount = jobs.filter(j => j.status === 'Rejected').length;
+    
+    totalCountEl.innerText = jobs.length;
+    interviewCountEl.innerText = interviewCount;
+    rejectedCountEl.innerText = rejectedCount;
+    currentViewCountEl.innerText = currentViewCount;
+}
+
+
+showAllJobs();
